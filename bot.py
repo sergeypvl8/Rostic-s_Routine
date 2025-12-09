@@ -78,7 +78,7 @@ def start(update: Update, context: CallbackContext):
         "• Днем в 16:00 - задачи на вторую половину дня\n\n"
         "Используй /morning для утренних задач\n"
         "Используй /afternoon для вечерних задач\n"
-        "Используй /all для всех задач сразу\n"
+        "Используй /all для всех задачи сразу\n"
         "Используй /set_daily для автоматических напоминаний"
     )
 
@@ -201,8 +201,8 @@ def error(update: Update, context: CallbackContext):
     logger.warning('Update "%s" caused error "%s"', update, context.error)
 
 def main():
-    # Создаем Updater и передаем ему токен - БЕЗ use_context
-    updater = Updater(API_TOKEN)
+    # Создаем Updater и передаем ему токен
+    updater = Updater(API_TOKEN, use_context=True)
     
     # Получаем dispatcher для регистрации обработчиков
     dp = updater.dispatcher
