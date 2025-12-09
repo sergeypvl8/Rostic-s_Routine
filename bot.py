@@ -201,8 +201,8 @@ def error(update: Update, context: CallbackContext):
     logger.warning('Update "%s" caused error "%s"', update, context.error)
 
 def main():
-    # Создаем Updater и передаем ему токен
-    updater = Updater(API_TOKEN, use_context=True)
+    # Создаем Updater и передаем ему токен - БЕЗ use_context
+    updater = Updater(API_TOKEN)
     
     # Получаем dispatcher для регистрации обработчиков
     dp = updater.dispatcher
@@ -218,9 +218,6 @@ def main():
     
     # Логирование ошибок
     dp.add_error_handler(error)
-    
-    # Получаем JobQueue
-    job_queue = updater.job_queue
     
     # Запускаем бота
     updater.start_polling()
