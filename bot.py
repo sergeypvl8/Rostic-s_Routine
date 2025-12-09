@@ -1,8 +1,9 @@
 import os
 import logging
 from telegram import Update, InlineKeyboardButton, InlineKeyboardMarkup
-from telegram.ext import Application, CommandHandler, CallbackQueryHandler, ContextTypes, CallbackContext
+from telegram.ext import Application, CommandHandler, CallbackQueryHandler, ContextTypes
 from datetime import time
+from telegram.ext import JobQueue
 
 logging.basicConfig(
     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
@@ -127,18 +128,18 @@ async def send_all_tasks(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await update.message.reply_text("📋 Задачи на утро:", reply_markup=morning_keyboard)
     await update.message.reply_text("📋 Задачи на вечер:", reply_markup=afternoon_keyboard)
 
-async def send_morning_daily(context: CallbackContext):
-    chat_id = context.job.chat_id
+async def send_morning_daily(context: ContextTypes.DEFAULT_TYPE):
     try:
+        chat_id = context.job.chat_id
         keyboard = create_task_keyboard(MORNING_TASKS, "morning", chat_id)
         await context.bot.send_message(chat_id=chat_id, text="📋 Задачи на утро:", reply_markup=keyboard)
         logger.info(f"Отправили утренние задачи в чат {chat_id}")
     except Exception as e:
         logger.error(f"Ошибка отправки утренних задач: {e}")
 
-async def send_afternoon_daily(context: CallbackContext):
-    chat_id = context.job.chat_id
+async def send_afternoon_daily(context: ContextTypes.DEFAULT_TYPE):
     try:
+        chat_id = context.job.chat_id
         keyboard = create_task_keyboard(AFTERNOON_TASKS, "afternoon", chat_id)
         await context.bot.send_message(chat_id=chat_id, text="📋 Задачи на вечер:", reply_markup=keyboard)
         logger.info(f"Отправили вечерние задачи в чат {chat_id}")
