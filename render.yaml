@@ -1,11 +1,20 @@
+version: "1"
 services:
   - type: web
-    name: telegram-bot
+    name: telegram-task-bot
     env: python
     runtime: python3.13
-    buildCommand: pip install -r requirements.txt
+    region: frankfurt
+    plan: free
+    branch: main
+    buildCommand: |
+      python --version
+      pip install --upgrade pip
+      pip install -r requirements.txt
     startCommand: python bot.py
+    autoDeploy: true
     envVars:
       - key: TELEGRAM_TOKEN
         sync: false
-
+      - key: PYTHON_VERSION
+        value: "3.13.0"
